@@ -73,6 +73,13 @@ class TestPopulatedQueue(unittest.TestCase):
         self.assertEqual(pr, self.pr1)
         self.assertEqual(len(self.pr_queue), 1)
 
+    def test_list(self) -> None:
+        q = self.pr_queue.to_list()
+        self.assertIsInstance(q, list)
+        self.assertEqual(len(q), 2)
+        self.assertEqual(q[0], self.pr1)
+        self.assertEqual(q[1], self.pr2)
+
 
 if __name__ == '__main__':
     unittest.main()

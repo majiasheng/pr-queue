@@ -1,3 +1,4 @@
+from typing import List
 from .priority import Priority, priority_matrix
 from .urgency import Urgency
 from .importance import Importance
@@ -22,6 +23,15 @@ class Queue:
                 return pq.pop(0)
 
         return None
+    
+    def to_list(self) -> List[Priority]:
+        '''
+        return all items in queue in sorted order
+        '''
+        q = []
+        for _q in self.queue:
+            q.extend(_q)
+        return q
 
     def enqueue(self, data: Priority) -> None:
         priority = data.get_priority()
