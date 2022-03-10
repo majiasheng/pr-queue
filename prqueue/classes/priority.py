@@ -16,14 +16,14 @@ priority:
     8. not_as_urgent + not_as_important + complex
 '''
 priority_matrix = {
-    f'{Urgency.URGENT}{Importance.IMPORTANT}{Complexity.NOT_AS_COMPLEX}': 0,
-    f'{Urgency.URGENT}{Importance.IMPORTANT}{Complexity.COMPLEX}': 1,
-    f'{Urgency.URGENT}{Importance.NOT_AS_IMPORTANT}{Complexity.NOT_AS_COMPLEX}': 2,
-    f'{Urgency.URGENT}{Importance.NOT_AS_IMPORTANT}{Complexity.COMPLEX}': 3,
-    f'{Urgency.NOT_AS_URGENT}{Importance.IMPORTANT}{Complexity.NOT_AS_COMPLEX}': 4,
-    f'{Urgency.NOT_AS_URGENT}{Importance.IMPORTANT}{Complexity.COMPLEX}': 5,
-    f'{Urgency.NOT_AS_URGENT}{Importance.NOT_AS_IMPORTANT}{Complexity.NOT_AS_COMPLEX}': 6,
-    f'{Urgency.NOT_AS_URGENT}{Importance.NOT_AS_IMPORTANT}{Complexity.COMPLEX}': 7,
+    f'{Urgency.URGENT.value}{Importance.IMPORTANT.value}{Complexity.NOT_AS_COMPLEX.value}': 0,
+    f'{Urgency.URGENT.value}{Importance.IMPORTANT.value}{Complexity.COMPLEX.value}': 1,
+    f'{Urgency.URGENT.value}{Importance.NOT_AS_IMPORTANT.value}{Complexity.NOT_AS_COMPLEX.value}': 2,
+    f'{Urgency.URGENT.value}{Importance.NOT_AS_IMPORTANT.value}{Complexity.COMPLEX.value}': 3,
+    f'{Urgency.NOT_AS_URGENT.value}{Importance.IMPORTANT.value}{Complexity.NOT_AS_COMPLEX.value}': 4,
+    f'{Urgency.NOT_AS_URGENT.value}{Importance.IMPORTANT.value}{Complexity.COMPLEX.value}': 5,
+    f'{Urgency.NOT_AS_URGENT.value}{Importance.NOT_AS_IMPORTANT.value}{Complexity.NOT_AS_COMPLEX.value}': 6,
+    f'{Urgency.NOT_AS_URGENT.value}{Importance.NOT_AS_IMPORTANT.value}{Complexity.COMPLEX.value}': 7,
 }
 
 
@@ -40,5 +40,5 @@ class Priority:
 
     def get_priority(self) -> int:
         # TODO: verify below are numbers
-        matrix_key = f'{self.urgency}{self.importance}{self.complexity}'
-        priority_matrix.get(matrix_key)
+        matrix_key = f'{self.urgency.value}{self.importance.value}{self.complexity.value}'
+        return priority_matrix.get(matrix_key)
