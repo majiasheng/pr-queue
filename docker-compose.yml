@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+
+  # postgres
+  postgres:
+    image: postgres:13
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USERNAME} # the image, postgres:13, reads POSTGRES_USER and POSTGRES_PASSWORD to authenticate
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - ${POSTGRES_LOCAL_PORT}:${POSTGRES_CONTAINER_PORT}
+    volumes:
+      - ./postgres/postgres-data:/var/lib/postgresql/data
