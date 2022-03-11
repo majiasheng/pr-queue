@@ -1,44 +1,51 @@
 import constants.http_methods as methods
 import os
 import handlers
-import init
 
 from dotenv import load_dotenv
-from db.db_manager import get_engine, get_sqlite_engine
-from flask import Flask
+from persistence.db_manager import get_engine, get_sqlite_engine
+from flask import Flask, request, jsonify
 
 load_dotenv()
 app = Flask(__name__)
 # db_engine = get_engine()
 db_engine = get_sqlite_engine()
 
-init.init_app()
+if os.environ.get('env', 'development') == 'development':
+    import init
+    init.init_app(db_engine)
 
-@app.route("/help", methods = [methods.GET])
+
+@app.route("/help", methods=[methods.GET])
 def help():
-    return handlers.handle_help()
+    return handlers.help()
 
 
-@app.route("/list", methods = [methods.GET])
+@app.route("/list", methods=[methods.GET])
 def list_prs():
-    handlers.handle_list_prs()
+    handlers.list_prs()
 
 
-@app.route("/new", methods = [methods.POST])
+@app.route("/new", methods=[methods.POST])
 def add_new_pr():
-    # TODO: param
-    handlers.handle_add_new_pr()
+    data = request.get_json()
+    result_id = handlers.add_new_pr(data)
+    return jsonify(
+        data=result_id
+    )
 
-@app.route("/close", methods = [methods.DELETE])
+
+@app.route("/close", methods=[methods.DELETE])
 def close_pr():
-    handlers.handle_close_pr()
+    handlers.close_pr()
 
-@app.route("/update", methods = [methods.PUT])
+
+@app.route("/update", methods=[methods.PUT])
 def update_pr():
     # TODO: param
-    handlers.handle_update_pr()
+    handlers.update_pr()
 
 
 if __name__ == '__main__':
     debug = bool(os.environ.get('debug', False))
-    app.run(debug = debug)
+    app.run(debug=debug)

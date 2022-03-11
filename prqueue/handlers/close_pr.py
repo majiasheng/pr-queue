@@ -1,2 +1,5 @@
+import services
+
+
 def close_pr():
-    pass
+    services.close_pr()

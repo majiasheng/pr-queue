@@ -1,0 +1,6 @@
+ID = 'id'
+LINK = 'link'
+PRIORITY = 'priority'
+STATUS = 'status'
+DATE_CREATED = 'date_created'
+DATE_UPDATED = 'date_updated'

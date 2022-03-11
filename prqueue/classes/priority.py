@@ -39,6 +39,6 @@ class Priority:
         self.complexity = complexity
 
     def get_priority(self) -> int:
-        # TODO: verify below are numbers
         matrix_key = f'{self.urgency.value}{self.importance.value}{self.complexity.value}'
-        return priority_matrix.get(matrix_key)
+        fall_back_priority = len(priority_matrix)
+        return priority_matrix.get(matrix_key, fall_back_priority)
