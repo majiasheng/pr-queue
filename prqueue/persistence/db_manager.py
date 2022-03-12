@@ -34,5 +34,6 @@ def add_new_pr(engine: sa.engine.Engine, pr: PullRequest) -> sa.engine.ResultPro
     return engine.execute(insert_statement)
 
 
-def list_prs(engine: sa.engine.Engine) -> sa.engine.ResultProxy:
-    pass
+def list_prs(engine: sa.engine.Engine, limit: int = 10, offset: int = 0) -> sa.engine.ResultProxy:
+    select_statement = entities.PrQueue.select().limit(limit).offset(offset)
+    return engine.execute(select_statement)

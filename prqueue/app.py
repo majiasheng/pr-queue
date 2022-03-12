@@ -23,7 +23,10 @@ def help():
 
 @app.route("/list", methods=[methods.GET])
 def list_prs():
-    handlers.list_prs()
+    prs = handlers.list_prs(request.args)
+    return jsonify(
+        data=prs
+    )
 
 
 @app.route("/new", methods=[methods.POST])

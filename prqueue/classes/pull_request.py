@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Any, Dict
 from .urgency import Urgency
 from .importance import Importance
 from .complexity import Complexity
@@ -17,3 +18,14 @@ class PullRequest(Priority):
         self.link = link
         self.status = status
         super().__init__(urgency, importance, complexity)
+
+    def to_json(self) -> Dict[str, Any]:
+        return {
+            'link': self.link,
+            'priority': {
+                'level': self.get_priority(),
+                'urgency': self.urgency.name,
+                'importance': self.importance.name,
+                'complexity': self.complexity.name
+            }
+        }
