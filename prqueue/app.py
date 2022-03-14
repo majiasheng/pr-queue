@@ -21,8 +21,11 @@ def help():
     return handlers.help()
 
 
+# TODO: middleware to try catch
+
 @app.route("/list", methods=[methods.GET])
 def list_prs():
+    # TODO: try catch
     prs = handlers.list_prs(request.args)
     return jsonify(
         data=prs
@@ -31,6 +34,7 @@ def list_prs():
 
 @app.route("/new", methods=[methods.POST])
 def add_new_pr():
+    # TODO: try catch
     data = request.get_json()
     result_id = handlers.add_new_pr(data)
     return jsonify(
@@ -40,7 +44,12 @@ def add_new_pr():
 
 @app.route("/close", methods=[methods.DELETE])
 def close_pr():
-    handlers.close_pr()
+    # TODO: try catch
+    data = request.get_json()
+    result_id = handlers.close_pr(data)
+    return jsonify(
+        data=result_id
+    )
 
 
 @app.route("/update", methods=[methods.PUT])

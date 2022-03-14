@@ -3,7 +3,7 @@ from classes.pull_request import PullRequest
 from typing import Any, Dict
 
 
-def add_new_pr(data: Dict[str, Any]):
+def add_new_pr(data: Dict[str, Any]) -> str:
     # validate and create PullRequest object
     link = data.get('link', None)
     # link = data.get('link', None)

@@ -20,7 +20,10 @@ def get_sqlite_engine() -> sa.engine.Engine:
 
 
 def close_pr(engine: sa.engine.Engine, link: str) -> sa.engine.ResultProxy:
-    pass
+    delete_statement = entities.PrQueue.delete().where(
+        entities.PrQueue.c.link==link
+    ) # .returning(entities.PrQueue) # sqlite doesnt support returning
+    return engine.execute(delete_statement)
 
 
 def add_new_pr(engine: sa.engine.Engine, pr: PullRequest) -> sa.engine.ResultProxy:
