@@ -2,6 +2,7 @@ import constants.http_methods as methods
 import os
 import handlers
 
+from functools import wraps
 from dotenv import load_dotenv
 from persistence.db_manager import get_engine, get_sqlite_engine
 from flask import Flask, request, jsonify
@@ -16,6 +17,18 @@ if os.environ.get('env', 'development') == 'development':
     init.init_app(db_engine)
 
 
+def returns_json(func):
+    @wraps(func)
+    def inner(*args, **kwargs):
+        try:
+            return jsonify(func(*args, **kwargs))
+        except Exception as e:
+            return jsonify(
+                {'error': str(e)}
+            )
+
+    return inner
+
 @app.route("/help", methods=[methods.GET])
 def help():
     return handlers.help()
@@ -24,15 +37,9 @@ def help():
 # TODO: middleware to try catch
 
 @app.route("/peek", methods=[methods.GET])
+@returns_json
 def peek():
-
-    pr = None
-    try:
-        pr = handlers.peek()
-        res = pr
-    except Exception as e:
-        res = {'error': str(e)}
-    return jsonify(res)
+    return handlers.peek()
 
 
 @app.route("/list", methods=[methods.GET])
@@ -45,17 +52,11 @@ def list_prs():
 
 
 @app.route("/new", methods=[methods.POST])
+@returns_json
 def add_new_pr():
     data = request.get_json()
-    res = None
-    try:
-        result_id = handlers.add_new_pr(data)
-        res = {'id': result_id}
-    except Exception as e:
-        import traceback
-        traceback.print_exc()
-        res = {'error': str(e)}
-    return jsonify(res)
+    result_id = handlers.add_new_pr(data)
+    return {'id': result_id}
 
 
 @app.route("/close", methods=[methods.DELETE])
