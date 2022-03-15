@@ -38,7 +38,7 @@ def add_new_pr(request_data: Dict[str, Any]) -> str:
         complexity=complexity
     )
     id = services.add_new_pr(pr)
-    # TODO: create response object
+
     return id
 
 

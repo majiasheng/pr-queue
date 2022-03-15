@@ -12,4 +12,4 @@ def peek() -> PullRequest:
     prs = list(
         map(lambda pr: db_manager.create_pr_from_db_record(pr).to_json(), _prs))
 
-    return prs
+    return prs[0]

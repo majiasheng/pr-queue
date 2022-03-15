@@ -60,13 +60,19 @@ def add_new_pr():
 
 @app.route("/close", methods=[methods.DELETE])
 def close_pr():
-    # TODO: try catch
     data = request.get_json()
-    result_id = handlers.close_pr(data)
-    return jsonify(
-        data=result_id
-    )
-
+    res = {
+        'success': False
+    }
+    try:
+        success = handlers.close_pr(data)
+        if success:
+            res['success'] = True
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        res = {'error': str(e)}
+    return jsonify(res)
 
 @app.route("/update", methods=[methods.PUT])
 def update_pr():
