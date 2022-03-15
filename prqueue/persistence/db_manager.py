@@ -2,6 +2,7 @@ import constants.prqueue as c
 import sqlalchemy as sa
 import uuid
 
+from typing import Any, Dict
 from classes.pull_request import PullRequest
 from . import config
 from . import secrets
@@ -17,6 +18,16 @@ def get_engine() -> sa.engine.Engine:
 
 def get_sqlite_engine() -> sa.engine.Engine:
     return sa.create_engine("sqlite:///.sqlite.db", echo=True)
+
+
+def create_pr_from_db_record(pr: Dict[str, Any]) -> PullRequest:
+    priority = PullRequest.decode_prority(pr['priority'])
+    return PullRequest(
+        pr['link'],
+        urgency=priority['urgency'],
+        importance=priority['importance'],
+        complexity=priority['complexity']
+    )
 
 
 def close_pr(engine: sa.engine.Engine, link: str) -> sa.engine.ResultProxy:
@@ -39,4 +50,12 @@ def add_new_pr(engine: sa.engine.Engine, pr: PullRequest) -> sa.engine.ResultPro
 
 def list_prs(engine: sa.engine.Engine, limit: int = 10, offset: int = 0) -> sa.engine.ResultProxy:
     select_statement = entities.PrQueue.select().limit(limit).offset(offset)
+    return engine.execute(select_statement)
+
+def peek(engine: sa.engine.Engine) -> sa.engine.ResultProxy:
+    select_statement = entities.PrQueue.select().order_by(
+        entities.PrQueue.c.priority
+    ).order_by(
+        entities.PrQueue.c.date_updated
+    ).limit(1)
     return engine.execute(select_statement)

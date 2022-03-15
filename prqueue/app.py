@@ -25,10 +25,15 @@ def help():
 
 @app.route("/peek", methods=[methods.GET])
 def peek():
-    pr = handlers.peek()
-    return jsonify(
-        data=pr
-    )
+
+    pr = None
+    try:
+        pr = handlers.peek()
+        res = pr
+    except Exception as e:
+        res = {'error': str(e)}
+    return jsonify(res)
+
 
 @app.route("/list", methods=[methods.GET])
 def list_prs():
@@ -42,16 +47,15 @@ def list_prs():
 @app.route("/new", methods=[methods.POST])
 def add_new_pr():
     data = request.get_json()
+    res = None
     try:
         result_id = handlers.add_new_pr(data)
-        return jsonify(
-            data=result_id
-        )
+        res = {'id': result_id}
     except Exception as e:
-        # TODO: return error
         import traceback
         traceback.print_exc()
-        return {'error': str(e)}
+        res = {'error': str(e)}
+    return jsonify(res)
 
 
 @app.route("/close", methods=[methods.DELETE])
