@@ -5,7 +5,11 @@ from classes.pull_request import PullRequest
 
 def peek() -> PullRequest:
     _prs = db_manager.peek(db_engine).mappings().all()
-    import pdb; pdb.set_trace()
-    prs = list(map(lambda pr: db_manager.create_pr_from_db_record(pr).to_json(), _prs))
+
+    if len(_prs) == 0:
+        return None
+
+    prs = list(
+        map(lambda pr: db_manager.create_pr_from_db_record(pr).to_json(), _prs))
 
     return prs
