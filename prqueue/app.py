@@ -34,8 +34,6 @@ def help():
     return handlers.help()
 
 
-# TODO: middleware to try catch
-
 @app.route("/peek", methods=[methods.GET])
 @returns_json
 def peek():
@@ -43,12 +41,9 @@ def peek():
 
 
 @app.route("/list", methods=[methods.GET])
+@returns_json
 def list_prs():
-    # TODO: try catch
-    prs = handlers.list_prs(request.args)
-    return jsonify(
-        data=prs
-    )
+    return handlers.list_prs(request.args)
 
 
 @app.route("/new", methods=[methods.POST])
@@ -60,20 +55,18 @@ def add_new_pr():
 
 
 @app.route("/close", methods=[methods.DELETE])
+@returns_json
 def close_pr():
     data = request.get_json()
     res = {
         'success': False
     }
-    try:
-        success = handlers.close_pr(data)
-        if success:
-            res['success'] = True
-    except Exception as e:
-        import traceback
-        traceback.print_exc()
-        res = {'error': str(e)}
-    return jsonify(res)
+
+    success = handlers.close_pr(data)
+    if success:
+        res['success'] = True
+    return res
+
 
 @app.route("/update", methods=[methods.PUT])
 def update_pr():
