@@ -1,2 +1,5 @@
-venv/
 .env
+.data/
+venv/
+**/secrets.py
+**/.sqlite.db
