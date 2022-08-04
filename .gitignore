@@ -3,3 +3,6 @@
 venv/
 **/secrets.py
 **/.sqlite.db
+
+# misc
+todo.md
